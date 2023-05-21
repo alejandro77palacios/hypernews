@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hyper News</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+<h2>Hyper news</h2>
+
+{% regroup data by created as articles %}
+{% for created in articles %}
+<h4>{{ created.grouper }}</h4>
+<ul>
+    {% for item in created.list %}
+    <li><a href="/news/{{ item.link }}/">{{ item.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endfor %}
+
+<a href="/news/create/">Create Page</a>
+<form method="post">
+    {% csrf_token %}
+    <label for="q">Query:</label>
+    <input type="text" id="q" name="q">
+    <input type="submit" value="Search">
+</form>
+</body>
+</html>
